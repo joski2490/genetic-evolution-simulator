@@ -24,10 +24,10 @@ function excite(brain, connections, input_value, origin_trace) {
             const neuron = brain.neurons[connection.id];
             if (neuron) {
                 //add in weight in this connection for the next time this neuron get excited
-                if (neuron.weight < 4 && neuron.weight > -4) {
+                if (neuron.weight < 7 && neuron.weight > -7) {
                     neuron.weight = ((neuron.weight + input_value) + neuron.weight / 2);
-                    if (neuron.weight < -4) neuron.weight = -4;
-                    if (neuron.weight > 4) neuron.weight = 4;
+                    if (neuron.weight < -7) neuron.weight = -7;
+                    if (neuron.weight > 7) neuron.weight = 7;
                 }
             }
 
@@ -51,8 +51,8 @@ function update_brain(brain) {
 
 export function gene(source, sink, weight) {
     weight = weight || 0;
-    if (weight < -4.0) weight = -4.0;
-    if (weight > 4.0) weight = 4.0;
+    if (weight < -7.0) weight = -7.0;
+    if (weight > 7.0) weight = 7.0;
 
     return {
         source_type: source.type, // SENSOR or NEURON
@@ -89,7 +89,7 @@ export function randomGene() {
     const view = new DataView(array.buffer);
     const source = view.getUint16(0, false);
     const sink = view.getUint16(2, false);
-    const weight = view.getFloat32(4, false);
+    const weight = view.getFloat32(7, false);
     return gene({
         type: source >> 15,
         id: source & ~(1 << 15),
@@ -123,8 +123,8 @@ export function mutateGene(gene) {
                 gene.sink_id = bit_toggle(gene.sink_id, flipped_bit - 16) % 32767;
             else {
                 gene.weight = uint32ToFloat(bit_toggle(floatToUint32(gene.weight), flipped_bit - 32));
-                if (gene.weight < -4) gene.weight = -4;
-                if (gene.weight > 4) gene.weight = 4;
+                if (gene.weight < -7) gene.weight = -7;
+                if (gene.weight > 7) gene.weight = 7;
             }
     }
     return gene;
